@@ -1,0 +1,237 @@
+$solid: 1px solid black;
+$visibility-border: 1px solid black;
+$visibility-border: 0px;
+
+$in-color: tomato;
+$out-color: yellow;
+$off-color: white;
+
+
+// ------------------------------
+// レイアウト
+// ------------------------------
+// セクションの基本設定
+@mixin defaultSection {
+  width: 100%;
+  display: flex;
+  border: $visibility-border;
+}
+
+// 外枠
+.outerContainer {
+  @include defaultSection;
+  flex-direction: column;
+}
+
+// 上段：afterボックスの枠
+.boxSection {
+  @include defaultSection;
+  justify-content: space-around;
+}
+
+// 中段：間の線の枠
+.middleWireSection {
+  @include defaultSection;
+  height: 3rem;
+  justify-content: space-around;
+}
+
+// 下段：メインの線の枠
+.mainWireSection {
+  border: $visibility-border;
+  position: relative;
+}
+
+// 下段・奥：線用のレイヤー
+.wireLayer {
+  @include defaultSection;
+  justify-content: center;
+  position: absolute;
+  z-index: -1;
+}
+
+// 下段・前：結合部のレイヤー
+.jointLayer {
+  @include defaultSection;
+  justify-content: space-around;
+  position: absolute;
+}
+
+
+// ------------------------------
+// 要素
+// ------------------------------
+// ボックス
+.box {
+  width: 8rem;
+  height: 10rem;
+  border: $solid;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+// 結合部
+.joint {
+  border: $solid;
+  height: 1rem;
+  width: 1rem;
+  background-color: $off-color;
+}
+
+// 結合部（出力表示）
+.outJoint {
+  @extend .joint;
+  background-color: $out-color;
+}
+
+// 線の共通設定
+@mixin wire {
+  border: $solid;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+// メインの線
+.mainWire {
+  @include wire;
+  height: 1rem;
+  width: 20%;
+  flex-direction: row;
+  background-color: $off-color;
+}
+
+// メインの線（出力表示）
+.outMainWire {
+  @extend .mainWire;
+  background-color: $out-color;
+}
+
+// メインの線（入力表示）
+.inMainWire {
+  @extend .mainWire;
+  background-color: $in-color;
+}
+
+// 間の線
+.middleWire {
+  @include wire;
+  width: 1rem;
+  height: 100%;
+  border-top: 0;
+  border-bottom: 0;
+  flex-direction: column;
+  background-color: $off-color;
+}
+
+// 間の線（出力表示）
+.outMiddleWire {
+  @extend .middleWire;
+  background-color: $out-color;
+}
+
+// 間の線（入力表示）
+.inMiddleWire {
+  @extend .middleWire;
+  background-color: $in-color;
+}
+
+
+// ------------------------------
+// 矢印
+// ------------------------------
+// 共通設定
+.arrows {
+  // 中の矢印の配置
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  // アニメーション設定
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  // 最後の要素（2個目の矢印）
+  // 最初は非表示にして2秒後にアニメーション開始
+  &:last-child {
+    visibility: hidden;
+    animation-delay: 2s;
+  }
+}
+
+// 下向きの矢印の設定
+.down {
+  img {
+    transform: rotate(180deg);
+  }
+  .arrows {
+    height: 100%;
+    flex-direction: column;
+    animation-name: down_move;
+  }
+}
+
+// 下向きのアニメーション
+@keyframes down_move {
+  0% {
+    visibility: visible;
+    transform: translateY(-100%);
+  }
+  100% {
+    visibility: visible;
+    transform: translateY(100%);
+  }
+}
+
+// 上向きの矢印の設定
+.up {
+  .arrows {
+    height: 100%;
+    flex-direction: column;
+    animation-name: up_move;
+  }
+}
+
+// 上向きのアニメーション
+@keyframes up_move {
+  0% {
+    visibility: visible;
+    transform: translateY(100%);
+  }
+  100% {
+    visibility: visible;
+    transform: translateY(-100%);
+  }
+}
+
+// 右向きの矢印の設定
+.right {
+  img {
+    transform: rotate(90deg);
+  }
+  .arrows {
+    width: 100%;
+    flex-direction: row;
+    animation-name: right_move;
+    animation-duration: 8s;
+    &:last-child {
+      visibility: hidden;
+      animation-delay: 4s;
+    }
+  }
+}
+
+// 右向きのアニメーション
+@keyframes right_move {
+  0% {
+    visibility: visible;
+    transform: translateX(-100%);
+  }
+  100% {
+    visibility: visible;
+    transform: translateX(100%);
+  }
+}

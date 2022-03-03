@@ -37,6 +37,25 @@ const Home: NextPage = ({ allPostsData }: any) => {
               </small>
             </li>
           ))}
+          <li className={utilStyles.listItem}>
+            <Link href={`/examples/ev-flow`}>
+              <a>EV-Flow Example</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              CSS animation test
+            </small>
+          </li>
+          
+          <li className={utilStyles.listItem}>
+            <Link href={`/examples/ev-flow2`}>
+              <a>EV-Flow Example2</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              CSS animation test2
+            </small>
+          </li>
         </ul>
       </section>
     </Layout>
